@@ -1,0 +1,71 @@
+version: '2.1'
+
+volumes:
+
+  takserver-logs:
+    driver: local
+  takserver-certs:
+    driver: local
+
+services:
+
+  takserver:
+    build:
+      context: .
+      dockerfile: Dockerfile.takserver
+    image: sofwerx/takserver
+    container_name: takserver
+    hostname: takserver
+## Follow the README.md before enabling this.
+#    environment:
+#      ENABLE_TLS: 1
+    ports:
+#      - 3334/tcp      # Unknown.
+      - 8087:8087/udp # Standard UDP. UDP is required for multicast traffic. Enabled by default on port 8087.
+      - 8087:8087/tcp # Standard TCP. This is the method of using TCP advocated by the Cursor-on-Target standard,
+                      # called "open-squirt-close." The sender opens a new TCP connection for each CoT message,
+                      # and closes it immediately after sending the message. This method of using TCP has 
+                      # performance limitations and is appropriate only for clients that send infrequent messages.
+      - 8088:8088/tcp # streamtcp: TCP connection where the client keeps the connection open and sends and receives
+                      # data continuously.  This is preferable to standard TCP in many situations and should be
+                      # used for all clients that support it, including ATAK.
+      - 8089:8089/tcp # stdssl: A continuous TCP connection like the streamtcp protocol, but with TLS 1.2 encryption.
+                      # "ssl" is a bit of a misnomer; TAK Server actually uses TLS, not SSL.
+                      # This connection is disabled by default.
+#      - 42097:42907/tcp # Unknown.
+#      - 127.0.0.11:45591:45591/tcp # Unknown.
+    volumes:
+      - takserver-logs:/opt/tak/logs
+      - takserver-certs:/opt/tak/certs
+
+  takreflector:
+    build:
+      context: .
+      dockerfile: Dockerfile.takreflector
+    image: sofwerx/takreflector
+    container_name: takreflector
+    hostname: takreflector
+    environment:
+      INPUT_ADDRESS: ${INPUT_ADDRESS}
+    ports:
+      - 3080:3080/tcp
+      - 1935:1935/tcp # RTMP Video
+
+  takplayrecording1:
+    build:
+      context: .
+      dockerfile: Dockerfile.takplayrecording
+    image: sofwerx/takplayrecording
+    container_name: takplayrecording1
+    hostname: takplayrecording1
+    command: /takplayrecording.sh ./publish_file --output-address 127.0.0.1 --output-port 3080 --input-file raven1
+
+  takplayrecording3:
+    build:
+      context: .
+      dockerfile: Dockerfile.takplayrecording
+    image: sofwerx/takplayrecording
+    container_name: takplayrecording1
+    hostname: takplayrecording1
+    command: /takplayrecording.sh ./publish_file --output-address 127.0.0.1 --output-port 3080 --input-file raven3
+

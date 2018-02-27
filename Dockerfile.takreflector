@@ -1,0 +1,23 @@
+FROM centos:7
+
+RUN yum -y install epel-release
+RUN yum install -y java-1.8.0-openjdk-devel unzip
+
+WORKDIR /takreflector
+
+ADD TAKServerReflector.zip .
+RUN unzip TAKServerReflector.zip
+
+RUN tar xvzf TAKServerReflector/mjpegserver-linux-x86_64-2017_11_16.tar.gz
+
+ADD takreflector.sh /takreflector.sh
+
+ENV INPUT_ADDRESS=127.0.0.1 \
+    INPUT_PORT=3080 \
+    RTMP_PORT=1935 \
+    PORT_QUANTITY=10 \
+    FORCED_WIDTH=320 \
+    FORCED_HEIGHT=240
+EXPORT 3080 1935
+
+CMD /takreflector.sh

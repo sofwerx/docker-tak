@@ -1,0 +1,15 @@
+FROM centos:7
+
+RUN yum -y install epel-release
+RUN yum install -y java-1.8.0-openjdk-devel unzip
+
+WORKDIR /takreflector
+
+ADD TAKServerReflector.zip .
+RUN unzip TAKServerReflector.zip
+
+RUN tar xvzf TAKServerReflector/mjpegserver-linux-x86_64-2017_11_16.tar.gz
+
+ADD takplayrecording.sh /takplayrecording.sh
+
+CMD /takplayrecording.sh ./publish_file --output-address 127.0.0.1 --output-port 3080 --input-file raven1

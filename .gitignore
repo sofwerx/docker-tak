@@ -1,0 +1,6 @@
+*.zip
+tmp/
+certs/
+mjpegserver-linux-x86_64-2017_11_16
+wedge_server
+TAKServerReflector
