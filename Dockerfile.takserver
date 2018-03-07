@@ -24,7 +24,7 @@ RUN chown -R $TAKSERVER_OWNER $TAKSERVER_HOME; chmod -R u+rwx $TAKSERVER_HOME
 
 ADD takserver.sh /takserver.sh
 
-EXPOSE 8088
+EXPOSE 8086 8088 8089
 
 VOLUME $TAKSERVER_HOME/logs/
 
