@@ -14,7 +14,7 @@ cat <<EOF > CoreConfig.xml
 		<input _name="streamtcp" protocol="stcp" port="8088" />
 		<input _name="SAproxy" protocol="mcast" group="239.2.3.1" port="6969" proxy="true"/>
 		<input _name="GeoChatproxy" protocol="mcast" group="224.10.10.1" port="17012" proxy="true"/>
-		<announce enable="true" uid="Marti1" group="239.2.3.1" port="6969" interval="1" ip="${ANNOUNCE_IP:-192.168.1.100}" />
+<!--		<announce enable="true" uid="Marti1" group="239.2.3.1" port="6969" interval="1" ip="${ANNOUNCE_IP:-192.168.1.100}" /> -->
 EOF
 
 if [ -n "${ENABLE_TLS}" ]; then
