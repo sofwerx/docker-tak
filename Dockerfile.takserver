@@ -22,6 +22,10 @@ RUN rpm -i takserver-1.3.3-4183.noarch.rpm
 RUN chmod a+x TAKServer.sh
 RUN chown -R $TAKSERVER_OWNER $TAKSERVER_HOME; chmod -R u+rwx $TAKSERVER_HOME
 
+# Prepare postgis extensions to be installed
+RUN yum install -y https://download.postgresql.org/pub/repos/yum/9.5/redhat/rhel-7-x86_64/pgdg-centos95-9.5-3.noarch.rpm
+RUN yum install -y postgis2_95
+
 ADD takserver.sh /takserver.sh
 
 EXPOSE 8086 8088 8089

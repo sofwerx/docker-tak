@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+export PGHOST PGPORT PGUSER PGPASSWORD PGDATABASE
+
 cat <<EOF > CoreConfig.xml
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration xmlns="http://bbn.com/marti/xml/config"
@@ -122,12 +124,11 @@ cat <<EOF >> CoreConfig.xml
 </Configuration>
 EOF
 
-if [ ! -f certs/.do_not_delete_me_already_setup_db ] ; then
-  if /opt/tak/db-utils/takserver-setup-db.sh; then
-    touch .do_not_delete_me_already_setup_db
-  fi
-fi
-
-java -jar /opt/tak/db-utils/SchemaManager.jar upgrade
+#set -x
+#psql -c "CREATE ROLE ${POSTGIS_USERNAME} LOGIN PASSWORD '${POSTGIS_PASSWORD}' SUPERUSER INHERIT CREATEDB NOCREATEROLE;" || true
+#
+#createdb --owner=${POSTGIS_USERNAME} ${POSTGIS_DATABASE} || true
+#
+#java -jar /opt/tak/db-utils/SchemaManager.jar upgrade
 
 exec ./TAKServer.sh
