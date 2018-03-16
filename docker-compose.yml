@@ -65,7 +65,7 @@ services:
       context: .
       dockerfile: Dockerfile.takplayrecording
     image: sofwerx/takplayrecording
-    container_name: takplayrecording1
-    hostname: takplayrecording1
+    container_name: takplayrecording3
+    hostname: takplayrecording3
     command: /takplayrecording.sh ./publish_file --output-address 127.0.0.1 --output-port 3080 --input-file raven3
 
