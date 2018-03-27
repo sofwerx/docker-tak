@@ -94,6 +94,7 @@ cat <<EOF >> CoreConfig.xml
 			<typefilter type="u-d-c" />
 		</dropfilter>
 		-->
+		<scrubber enable="false" action="overwrite"/>
 	</filter>
 
 	<buffer>
@@ -102,7 +103,7 @@ cat <<EOF >> CoreConfig.xml
 	</buffer>
 
 	<security>
-		<tls context="TLSv1" 
+		<tls context="TLSv1.2" 
 			keymanager="SunX509"
 			keystore="JKS" keystoreFile="certs/TAKServer.jks" keystorePass="atakatak" 
 			truststore="JKS" truststoreFile="certs/truststore.jks" truststorePass="atakatak">
@@ -111,10 +112,15 @@ cat <<EOF >> CoreConfig.xml
 		    
 		</tls>
 	</security>
+
+	<geocache enable="false"
+		maxTilesPerGoal="500" maxSizeOfCacheInMb="5"
+		cacheDir="/tmp/geocache" numThreads="10" />
+
 <!--
 	<federation>
 	  <federation-server port="9000">
-	    <tls context="TLSv1" 
+	    <tls context="TLSv1.2" 
 		 keymanager="SunX509"
 		 keystore="JKS" keystoreFile="certs/TAKServer.jks" keystorePass="atakatak" 
 		 truststore="JKS" truststoreFile="certs/fed-truststore.jks" truststorePass="atakatak"/>

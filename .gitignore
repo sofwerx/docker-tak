@@ -1,4 +1,5 @@
 *.zip
+*.pdf
 tmp/
 certs/
 mjpegserver-linux-x86_64-2017_11_16

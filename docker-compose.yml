@@ -9,6 +9,24 @@ volumes:
 
 services:
 
+  takweb:
+    build:
+      context: .
+      dockerfile: Dockerfile.takserver
+    image: sofwerx/takserver
+    container_name: takweb
+    hostname: takweb
+    ports:
+      - 8080:8080
+      - 8443:8443
+      - 8444:8444
+      - 8446:8446
+    volumes:
+      - takserver-logs:/opt/tak/logs
+      - takserver-certs:/opt/tak/certs
+    user: root
+    command: ./apache-tomcat/bin/catalina.sh run
+
   takserver:
     build:
       context: .
